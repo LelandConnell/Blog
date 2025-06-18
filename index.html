@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The CrossRoads Journal</title>
+  <link rel="stylesheet" href="static/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
+  <style>
+    /* Basic styles for profile panel */
+    #profile-panel {
+      display: none;
+      position: absolute;
+      top: 60px; /* adjust depending on header height */
+      right: 20px; /* aligns near login/profile button */
+      background: #f0f0f0;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 15px;
+      max-width: 280px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      font-family: Arial, sans-serif;
+      z-index: 1000;
+    }
+    #profile-panel p {
+      margin: 0 0 10px 0;
+      font-weight: 600;
+    }
+    #profile-panel button {
+      cursor: pointer;
+      padding: 8px 12px;
+      margin-right: 10px;
+      border: none;
+      background: #663399;
+      color: white;
+      border-radius: 4px;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+    }
+    #profile-panel button:hover {
+      background: #532d88;
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container" style="position: relative;">
+    <h1 class="site-title">The CrossRoads Journal</h1>
+      <nav class="nav">
+        <a href="#" id="nav-home">Home</a>
+        <a href="#" id="nav-about">About</a>
+        <a href="#" id="nav-posts">Posts</a>
+        <a href="#" id="nav-contact">Contact</a>
+        <a href="#" id="login-btn">Login</a>
+      </nav>
+
+
+        <!-- Profile panel shown when logged in -->
+        <div id="profile-panel">
+          <p>Welcome, <strong><span id="profile-username"></span></strong>!</p>
+          <button id="settings-btn">Settings</button>
+          <button id="logout-btn">Logout</button>
+        </div>
+      </nav>
+    <button id="dark-mode-toggle" aria-label="Toggle dark mode">Dark Mode</button>
+  </div>
+</header>
+
+<!-- Contact Panel -->
+<div id="contact-panel" style="
+  display: none;
+  padding: 20px;
+  background-color: var(--sidebar-bg);
+  border-radius: 10px;
+  margin: 20px auto;
+  max-width: 600px;
+  font-family: 'Open Sans', sans-serif;
+">
+  <h2>Contact Us</h2>
+  <form>
+    <input type="text" placeholder="Your Name" required style="width: 100%; padding: 10px; margin-bottom: 10px;">
+    <input type="email" placeholder="Your Email" required style="width: 100%; padding: 10px; margin-bottom: 10px; background-color: var(--bg-color); color: var(--text-color); border: 1px solid #aaa;">
+    <textarea placeholder="Your Message" rows="4" required style="width: 100%; padding: 10px; margin-bottom: 10px; background-color: var(--bg-color); color: var(--text-color); border: 1px solid #aaa;"></textarea>
+    <button type="submit">Send Message</button>
+  </form>
+</div>
+
+<!-- About Panel -->
+<div id="about-panel" style="
+  display: none;
+  padding: 20px;
+  background-color: var(--sidebar-bg);
+  border-radius: 10px;
+  margin: 20px auto;
+  max-width: 600px;
+  font-family: 'Open Sans', sans-serif;">
+  <h3>About The CrossRoads Journal</h3>
+  <p>Welcome to the Crossroads Journal - a vibrant space to explore the latest happenings within the Crossroads community, discover what fellow members are up to, and simply stay connected through shared stories and updates.<br><br>
+    Feel free to contribute your own posts or simply engage by reacting to what others are sharing, the choice is yours.<br><br>
+    Just click the Login or Sign Up button, and you’ll be ready to start crossing paths with other members.
+  </p>
+</div>
+
+<main class="container content">
+  <section class="main-area">
+    <article class="featured-post">
+      <h2>Featured Post Title</h2>
+      <p>Placeholder introduction text for the featured blog post.</p>
+      <a href="#">Read More</a>
+    </article>
+
+    <section id="create-post-section" style="display:none; margin-top: 30px;">
+      <form id="create-post-form" class="create-post">
+        <label for="title">Post Title</label>
+        <input type="text" id="title" name="title" required />
+
+        <label for="content">Content</label>
+        <textarea id="content" name="content" rows="5" required></textarea>
+
+        <button type="submit">Create Post</button>
+      </form>
+    </section>
+  </section>
+
+  <section class="recent-posts">
+    <h3>Recent Posts</h3>
+    <div id="recent-posts-list">
+    </div>
+  </section>
+
+  <section id="posts-archive-section" style="margin-top: 30px;">
+    <h3>Posts Archive</h3>
+    <div id="posts-archive-list">
+      <!-- Archived posts will be listed here -->
+    </div>
+  </section>
+
+</section>
+
+
+  <aside class="sidebar">
+    <section class="about">
+      <h3>A Little Summary </h3>
+      <p>Welcome to the Crossroads Journal, a place for you to share core memories, and have conversations with your fellow Crossroaders.</p>
+    </section>
+
+    <section class="newsletter">
+      <h3>Subscribe</h3>
+      <form>
+        <input type="email" placeholder="Your email" />
+        <button type="submit">Subscribe</button>
+      </form>
+    </section>
+
+    <!-- Removed duplicate login-btn here -->
+
+    <!-- Auth modal -->
+    <div id="auth-modal" style="display:none; position:fixed; top:0; left:0; 
+      width:100vw; height:100vh; background:rgba(0,0,0,0.5); 
+      justify-content:center; align-items:center; z-index:9999;">
+      <div style="background:#fff; padding:20px; border-radius:8px; width:320px; position:relative;">
+
+        <button id="auth-close" aria-label="Close" 
+          style="position:absolute; top:10px; right:10px; font-size:20px; background:none; border:none; cursor:pointer;">×</button>
+
+        <!-- Tabs -->
+        <div style="display:flex; margin-bottom:20px;">
+          <button id="show-login" style="flex:1; padding:10px; background:#08050a; color:#fff; border:none; cursor:pointer;">Login</button>
+          <button id="show-signup" style="flex:1; padding:10px; background:#ccc; border:none; cursor:pointer;">Sign Up</button>
+        </div>
+
+        <!-- Login form -->
+        <form id="login-form" style="display:block;">
+          <input id="login-email" type="email" placeholder="Email" required style="width:100%; margin-bottom:10px; padding:8px;"/>
+          <input id="login-username" type="text" placeholder="Username" required style="width:100%; margin-bottom:10px; padding:8px;"/>
+          <input id="login-password" type="password" placeholder="Password" required style="width:100%; margin-bottom:10px; padding:8px;"/>
+          <button type="submit" style="width:100%; padding:10px; background:#08060a; color:#fff; border:none; cursor:pointer;">Sign In</button>
+          <p id="login-error" style="color:red; display:none; margin-top:10px;"></p>
+          <p id="login-success" style="color:green; display:none; margin-top:10px;"></p>
+        </form>
+
+        <!-- Signup form -->
+        <form id="signup-form" style="display:none;">
+          <input id="signup-email" type="email" placeholder="Email" required style="width:100%; margin-bottom:10px; padding:8px;"/>
+          <input id="signup-username" type="text" placeholder="Username" required style="width:100%; margin-bottom:10px; padding:8px;"/>
+          <input id="signup-password" type="password" placeholder="Password" required style="width:100%; margin-bottom:10px; padding:8px;"/>
+          <button type="submit" style="width:100%; padding:10px; background:#161516; color:#fff; border:none; cursor:pointer;">Sign Up</button>
+          <p id="signup-error" style="color:red; display:none; margin-top:10px;"></p>
+          <p id="signup-success" style="color:green; display:none; margin-top:10px;"></p>
+        </form>
+
+      </div>
+    </div>
+
+  </aside>
+  
+
+
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2025 The CrossRoads Journal. All rights reserved.</p>
+</footer>
+
+<script src="static/script.js"></script>
+
+</body>
+</html>

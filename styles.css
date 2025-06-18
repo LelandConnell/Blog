@@ -1,0 +1,434 @@
+/* === The Crossroads Journal CSS === */
+
+/* Reset and base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* Root variables for light mode */
+:root {
+  --bg-color: #ffffff;
+  --text-color: #333333;
+  --header-bg: #f0f8f9;
+  --header-border: #ccc;
+  --featured-bg: #e0f7ff;
+  --recent-bg: #f4f4f4;
+  --sidebar-bg: #f9f9f9;
+  --footer-bg: #f0f0f0;
+  --button-bg: #7bafb656;
+  --button-hover-bg: #1620ac;
+}
+
+/* Dark mode variables */
+body.dark-mode {
+  --bg-color: #121212;
+  --text-color: #e0e0e0;
+  --header-bg: #1f1f1f;
+  --header-border: #333;
+  --featured-bg: #333a44;
+  --recent-bg: #2a2f38;
+  --sidebar-bg: #272b31;
+  --footer-bg: #1f1f1f;
+  --button-bg: #bd32cfad;
+  --button-hover-bg: #a197c0;
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* Header */
+.site-header {
+  background-color: var(--header-bg);
+  border-bottom: 2px solid var(--header-border);
+  padding: 20px 0;
+  text-align: center;
+  transition: background-color 0.4s ease, border-color 0.4s ease;
+}
+
+.site-title {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  font-family: 'Cinzel', serif;
+}
+
+/* Navigation */
+.nav a {
+  margin: 0 15px;
+  text-decoration: none;
+  color: var(--text-color);
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.nav a:hover,
+.nav a.active {
+  color: var(--button-bg);
+  border-bottom: 2px solid var(--button-bg);
+}
+
+/* Content layout */
+.content {
+  display: flex;
+  gap: 30px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.main-area {
+  flex: 3;
+  min-width: 300px;
+}
+
+.sidebar {
+  flex: 1;
+  min-width: 250px;
+}
+
+/* Featured post */
+.featured-post {
+  background-color: var(--featured-bg);
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  transition: background-color 0.4s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  animation: fadeInUp 0.6s ease forwards;
+  opacity: 0;
+}
+
+.featured-post a {
+  display: inline-block;
+  margin-top: 10px;
+  color: var(--button-bg);
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.featured-post a:hover {
+  color: var(--button-hover-bg);
+  text-decoration: underline;
+}
+
+/* Recent posts */
+.recent-posts {
+  position: relative;
+  width: 100%;
+}
+
+.recent-posts h3 {
+  font-family: 'Cinzel', serif;
+  margin-bottom: 20px;
+}
+
+.recent-posts .post {
+  background-color: var(--recent-bg);
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  transition: background-color 0.4s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  animation: fadeInUp 0.6s ease forwards;
+  opacity: 0;
+}
+
+/* Stagger animation delays for recent posts */
+.recent-posts .post:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.recent-posts .post:nth-child(3) {
+  animation-delay: 0.4s;
+}
+.recent-posts .post:nth-child(4) {
+  animation-delay: 0.6s;
+}
+
+/* Sidebar */
+.sidebar section {
+  background-color: var(--sidebar-bg);
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  transition: background-color 0.4s ease;
+}
+
+.sidebar h3 {
+  font-family: 'Cinzel', serif;
+  margin-bottom: 10px;
+}
+
+/* Form inputs */
+input[type="email"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+/* Buttons */
+button {
+  padding: 10px 15px;
+  background-color: var(--button-bg);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: var(--button-hover-bg);
+  transform: scale(1.05);
+}
+
+/* Footer */
+.site-footer {
+  background-color: var(--footer-bg);
+  text-align: center;
+  padding: 15px 0;
+  margin-top: 40px;
+  transition: background-color 0.4s ease;
+  font-family: 'Cinzel', serif;
+}
+
+/* Hover effects for posts */
+.recent-posts:hover .post,
+.main-area:hover .featured-post {
+  opacity: 0.5;
+}
+
+.recent-posts .post:hover,
+.featured-post:hover {
+  transform: scale(1.03);
+  opacity: 1 !important;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  z-index: 2;
+}
+
+/* Headings font */
+.site-title, h1, h2, h3, h4 {
+  font-family: 'Cinzel', serif;
+}
+
+/* Fade-in animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .content {
+    flex-direction: column;
+  }
+  .sidebar,
+  .main-area {
+    min-width: 100%;
+  }
+}
+
+#dark-mode-toggle {
+  padding: 8px 15px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 5px;
+  border: none;
+  background-color: var(--button-bg);
+  color: #fff;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+  font-family: 'Cinzel', serif;
+  margin-top: 10px;
+  user-select: none;
+}
+
+#dark-mode-toggle:hover {
+  background-color: var(--button-hover-bg);
+  transform: scale(1.05);
+}
+
+.contact-email {
+  color: var(--button-bg); /* uses your theme purple */
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.contact-email:hover {
+  color: var(--button-hover-bg);
+  cursor: pointer;
+}
+
+#contact-panel form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+#contact-panel input[type="text"],
+#contact-panel input[type="email"],
+#contact-panel textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+#contact-panel input[type="text"]:focus,
+#contact-panel input[type="email"]:focus,
+#contact-panel textarea:focus {
+  border-color: var(--button-bg);
+  outline: none;
+}
+
+#contact-panel button {
+  background-color: var(--button-bg);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#contact-panel button:hover {
+  background-color: var(--button-hover-bg);
+  transform: scale(1.05);
+}
+
+/* === Create Post Form Styling === */
+
+.create-post form {
+  background-color: var(--sidebar-bg);
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  transition: background-color 0.4s ease, border-color 0.3s ease;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Input and textarea inside create post */
+.create-post input[type="text"],
+.create-post textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: 'Open Sans', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+.create-post input[type="text"]:focus,
+.create-post textarea:focus {
+  border-color: var(--button-bg);
+  outline: none;
+}
+
+/* Post button */
+.create-post button[type="submit"] {
+  background-color: var(--button-bg);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.create-post button[type="submit"]:hover {
+  background-color: var(--button-hover-bg);
+  transform: scale(1.05);
+}
+
+.create-post label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: var(--text-color);
+  font-family: 'Cinzel', serif;
+}
+
+.create-post input[type="text"],
+.create-post textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+body.dark-mode .create-post input[type="text"],
+body.dark-mode .create-post textarea {
+  background-color: #222;
+  border-color: #555;
+  color: #eee;
+}
+
+.create-post input[type="text"]:focus,
+.create-post textarea:focus {
+  border-color: var(--button-bg);
+  outline: none;
+}
+
+.create-post button {
+  padding: 10px 20px;
+  background-color: var(--button-bg);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.create-post button:hover {
+  background-color: var(--button-hover-bg);
+  transform: scale(1.05);
+}
+
+
+
+
+body.dark-mode .create-post input[type="text"],
+body.dark-mode .create-post textarea {
+  background-color: #1f1f1f;
+  border-color: #444;
+}
