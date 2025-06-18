@@ -125,7 +125,7 @@ body.dark-mode {
 
 /* Recent posts */
 .recent-posts {
-  position: relative;
+  position: allign;
   width: 100%;
 }
 
@@ -431,4 +431,27 @@ body.dark-mode .create-post input[type="text"],
 body.dark-mode .create-post textarea {
   background-color: #1f1f1f;
   border-color: #444;
+}
+
+#recent-post-header {
+  text-align: center;
+}
+
+#archive-posts-panel {
+  display: block;
+  margin: 0 auto;
+  max-width: 800px; /* Optional: control width */
+  padding: 20px;
+}
+
+#archive-posts-panel {
+  text-align: center;
+}
+
+#archive-posts-panel .post {
+  display: inline-block;
+  text-align: left;
+  margin: 10px;
+  width: 90%;
+  max-width: 600px;
 }
