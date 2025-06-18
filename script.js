@@ -6,13 +6,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // Panels
   const contactPanel = document.getElementById('contact-panel');
   const aboutPanel = document.getElementById('about-panel');
+  const archivePostsPanel = document.getElementById('archive-posts-panel');
 
   // Nav links
   const navContact = document.getElementById('nav-contact');
   const navAbout = document.getElementById('nav-about');
   const navHome = document.getElementById('nav-home');
+  const navPosts = document.getElementById('nav-posts');
 
-  // Recent posts and archive lists (assumed to exist in HTML)
   const recentPostsList = document.getElementById('recent-posts-list');
   const postsArchiveList = document.getElementById('posts-archive-list');
 
@@ -34,13 +35,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Helper to hide all panels
+  // Hide all panels
   function hideAllPanels() {
     contactPanel.style.display = 'none';
     aboutPanel.style.display = 'none';
+    archivePostsPanel.style.display = 'none';
   }
 
-  // Contact toggle
+  // Toggle Contact panel
   navContact.addEventListener('click', (e) => {
     e.preventDefault();
     if (contactPanel.style.display === 'block') {
@@ -52,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // About toggle
+  // Toggle About panel
   navAbout.addEventListener('click', (e) => {
     e.preventDefault();
     if (aboutPanel.style.display === 'block') {
@@ -64,7 +66,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Home hides all
+  // Toggle Posts Archive panel
+  navPosts.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (archivePostsPanel.style.display === 'block') {
+      archivePostsPanel.style.display = 'none';
+    } else {
+      hideAllPanels();
+      archivePostsPanel.style.display = 'block';
+      archivePostsPanel.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+
+  // Hide all on Home click
   navHome.addEventListener('click', (e) => {
     e.preventDefault();
     hideAllPanels();
@@ -86,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const loginBtn = document.getElementById('login-btn');
 
-  // Create a profile panel dynamically and append it (hidden initially)
+  // Profile panel
   let profilePanel = document.createElement('div');
   profilePanel.id = 'profile-panel';
   profilePanel.style.display = 'none';
@@ -110,7 +124,6 @@ document.addEventListener('DOMContentLoaded', () => {
       <button id="logout-btn" style="padding: 8px 12px; cursor: pointer;">Logout</button>
     </div>
   `;
-
   loginBtn.parentNode.insertBefore(profilePanel, loginBtn.nextSibling);
 
   const profileUsernameSpan = profilePanel.querySelector('#profile-username');
@@ -129,11 +142,17 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('usersDB', JSON.stringify(users));
   }
 
-  // -- Post related helper functions --
-
   function createPostElement(title, content) {
     const article = document.createElement('article');
     article.classList.add('post');
+    
+    // Style to center each post block
+    article.style.margin = '20px auto';
+    article.style.maxWidth = '600px';
+    article.style.padding = '15px';
+    article.style.border = '1px solid #ccc';
+    article.style.borderRadius = '8px';
+    article.style.backgroundColor = '#fff';
 
     const h4 = document.createElement('h4');
     h4.textContent = title;
@@ -155,17 +174,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function addNewPost(title, content) {
-    // Add to Recent Posts at top
     if (recentPostsList) {
       recentPostsList.prepend(createPostElement(title, content));
     }
 
-    // Save to archive in localStorage
     let archivedPosts = JSON.parse(localStorage.getItem('postsArchive')) || [];
-    archivedPosts.unshift({ title, content }); // add to start
+    archivedPosts.unshift({ title, content });
     localStorage.setItem('postsArchive', JSON.stringify(archivedPosts));
 
-    // Update archive visually (prepend)
     if (postsArchiveList) {
       postsArchiveList.prepend(createPostElement(title, content));
     }
@@ -173,18 +189,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function updateCreatePostVisibility() {
     if (!createPostSection) return;
-    if (localStorage.getItem('loggedInUser')) {
-      createPostSection.style.display = 'block';
-    } else {
-      createPostSection.style.display = 'none';
-    }
+    createPostSection.style.display = localStorage.getItem('loggedInUser') ? 'block' : 'none';
   }
 
   function setLoggedIn(username) {
     localStorage.setItem('loggedInUser', username);
     loginBtn.textContent = 'Profile';
     profileUsernameSpan.textContent = username;
-    profilePanel.style.display = 'none'; // hide on login button click toggle
+    profilePanel.style.display = 'none';
     updateCreatePostVisibility();
   }
 
@@ -202,11 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
     showLoginBtn.style.color = '#fff';
     showSignupBtn.style.background = '#ccc';
     showSignupBtn.style.color = '#333';
-
-    loginError.style.display = 'none';
-    signupError.style.display = 'none';
-    signupSuccess.style.display = 'none';
-    loginSuccess.style.display = 'none';
+    loginError.style.display = signupError.style.display = signupSuccess.style.display = loginSuccess.style.display = 'none';
   }
 
   function showSignup() {
@@ -216,29 +224,17 @@ document.addEventListener('DOMContentLoaded', () => {
     showSignupBtn.style.color = '#fff';
     showLoginBtn.style.background = '#ccc';
     showLoginBtn.style.color = '#333';
-
-    loginError.style.display = 'none';
-    signupError.style.display = 'none';
-    signupSuccess.style.display = 'none';
-    loginSuccess.style.display = 'none';
+    loginError.style.display = signupError.style.display = signupSuccess.style.display = loginSuccess.style.display = 'none';
   }
 
   const loggedInUser = localStorage.getItem('loggedInUser');
-  if (loggedInUser) {
-    setLoggedIn(loggedInUser);
-  }
+  if (loggedInUser) setLoggedIn(loggedInUser);
 
   loginBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    const user = localStorage.getItem('loggedInUser');
-
-    if (user) {
-      if (profilePanel.style.display === 'block') {
-        profilePanel.style.display = 'none';
-      } else {
-        profilePanel.style.display = 'block';
-        authModal.style.display = 'none';
-      }
+    if (localStorage.getItem('loggedInUser')) {
+      profilePanel.style.display = profilePanel.style.display === 'block' ? 'none' : 'block';
+      authModal.style.display = 'none';
     } else {
       authModal.style.display = 'flex';
       showLogin();
@@ -249,34 +245,27 @@ document.addEventListener('DOMContentLoaded', () => {
     authModal.style.display = 'none';
     loginForm.reset();
     signupForm.reset();
-    loginError.style.display = 'none';
-    signupError.style.display = 'none';
-    signupSuccess.style.display = 'none';
-    loginSuccess.style.display = 'none';
-    profilePanel.style.display = 'none'; // hide on modal close
+    loginError.style.display = signupError.style.display = signupSuccess.style.display = loginSuccess.style.display = 'none';
+    profilePanel.style.display = 'none';
   });
 
   loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const username = document.getElementById('login-username').value.trim();
     const password = document.getElementById('login-password').value;
-
     const usersDB = getUsersDB();
 
-    loginError.style.display = 'none';
-    loginSuccess.style.display = 'none';
+    loginError.style.display = loginSuccess.style.display = 'none';
 
     if (usersDB[username] && usersDB[username].password === password) {
       loginSuccess.textContent = `Login successful! Welcome, ${username}.`;
       loginSuccess.style.display = 'block';
-
       setLoggedIn(username);
       loginForm.reset();
 
       setTimeout(() => {
         authModal.style.display = 'none';
         loginSuccess.style.display = 'none';
-        profilePanel.style.display = 'none'; // ensure profile is hidden on first login
       }, 2000);
     } else {
       loginError.style.display = 'block';
@@ -289,7 +278,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const username = document.getElementById('signup-username').value.trim();
     const email = document.getElementById('signup-email').value.trim();
     const password = document.getElementById('signup-password').value;
-
     const usersDB = getUsersDB();
 
     if (usersDB[username]) {
@@ -299,15 +287,11 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       usersDB[username] = { password, email };
       saveUsersDB(usersDB);
-
       signupError.style.display = 'none';
       signupSuccess.style.display = 'block';
       signupSuccess.textContent = 'Sign up successful! Please log in.';
       signupForm.reset();
-
-      setTimeout(() => {
-        showLogin();
-      }, 1500);
+      setTimeout(showLogin, 1500);
     }
   });
 
@@ -317,34 +301,23 @@ document.addEventListener('DOMContentLoaded', () => {
   logoutBtn.addEventListener('click', () => {
     setLoggedOut();
     alert('You have been logged out.');
-    profilePanel.style.display = 'none'; // hide panel after logout
   });
 
-  // Load archived posts on page load
   loadArchivedPosts();
-
-  // Update create post form visibility on page load
   updateCreatePostVisibility();
 
-  // Create post form handler
   const createPostForm = document.getElementById('create-post-form');
   if (createPostForm) {
     createPostForm.addEventListener('submit', (e) => {
-      e.preventDefault();  // Prevent form submission from refreshing page
-      
+      e.preventDefault();
       const title = createPostForm.elements['title'].value.trim();
       const content = createPostForm.elements['content'].value.trim();
-      
       if (!title || !content) {
         alert('Please fill in both title and content.');
         return;
       }
-
       addNewPost(title, content);
-
-      // Reset form after submission
       createPostForm.reset();
-
       alert('Post created successfully!');
     });
   }
